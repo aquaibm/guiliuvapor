@@ -1,0 +1,4 @@
+module CCryptoOpenSSL {
+    umbrella "/Users/Fumin/项目/GuiLiuVapor/.build/checkouts/crypto.git--8878973254959287319/Sources/CCryptoOpenSSL/include"
+    export *
+}
