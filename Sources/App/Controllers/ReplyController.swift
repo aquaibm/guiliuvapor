@@ -20,7 +20,7 @@ struct ReplyController {
             .filter(\.topicID == reply.topicID)
             .filter(\.link == reply.link).first().flatMap({ existingReply in
             guard existingReply == nil else {
-                throw Abort(.badRequest, reason: "已在该主题下发布过该链接，不能重复发布。", identifier: nil)
+                throw Abort(.forbidden, reason: "已在该主题下发布过该链接，不能重复发布。", identifier: nil)
             }
                 
             
@@ -153,7 +153,7 @@ struct ReplyController {
         let e = GlobalBlockedUser.query(on: req).all()
         return flatMap(to: [Reply].self,a,b,c,d,e, { topic, user,gbHosts,gbLinks,gbUsers  in
             guard let topicT = topic, let userT = user else {
-                throw Abort(.badRequest, reason: "相应主题或用户不存在", identifier: nil)
+                throw Abort(.notFound, reason: "相应主题或用户不存在", identifier: nil)
             }
             
             //获取用户的屏蔽列表
@@ -194,7 +194,7 @@ struct ReplyController {
         let e = GlobalBlockedUser.query(on: req).all()
         return flatMap(to: [Reply].self,a,b,c,d,e, { topic, user,gbHosts,gbLinks,gbUsers  in
             guard let topicT = topic, let userT = user else {
-                throw Abort(.badRequest, reason: "相应主题或用户不存在", identifier: nil)
+                throw Abort(.notFound, reason: "相应主题或用户不存在", identifier: nil)
             }
             
             //获取用户的屏蔽列表
@@ -235,7 +235,7 @@ struct ReplyController {
         let e = GlobalBlockedUser.query(on: req).all()
         return flatMap(to: [Reply].self,a,b,c,d,e, { topic, user,gbHosts,gbLinks,gbUsers  in
             guard let topicT = topic, let userT = user else {
-                throw Abort(.badRequest, reason: "相应主题或用户不存在", identifier: nil)
+                throw Abort(.notFound, reason: "相应主题或用户不存在", identifier: nil)
             }
             
             //获取用户的屏蔽列表

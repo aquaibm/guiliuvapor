@@ -11,53 +11,11 @@ import Fluent
 import FluentPostgreSQL
 
 struct TopicController {
-    //Get
-    func getCreatedTopics(request: Request) throws -> Future<[Topic]> {
-        let userID = try request.parameters.next(Int.self)
-        return User.find(userID, on: request).flatMap({ (user) in
-            guard let userT = user else {
-                throw Abort(.notFound, reason: "没有此用户", identifier: nil)
-            }
-            return try userT.createdTopics.query(on: request).all()
-        })
-    }
-
-    func getTopicCreator(_ req: Request) throws -> Future<User> {
-        let name = try req.parameters.next(String.self)
-        guard let convert = name.removingPercentEncoding else {
-            throw Abort(.expectationFailed, reason: "主题名称无效", identifier: nil)
-        }
-        return Topic.query(on: req).filter(\.name == convert).first().flatMap({ (topic) in
-            guard let topic = topic else {
-                throw Abort(.badRequest, reason: "主题不存在", identifier: nil)
-            }
-            
-            return topic.creator.get(on: req)
-        })
-    }
-    
-    func getTopicSubscriber(_ req: Request) throws -> Future<[User]> {
-        let name = try req.parameters.next(String.self)
-        guard let convertedName = name.removingPercentEncoding else {
-            throw Abort(.expectationFailed, reason: "主题名称无效", identifier: nil)
-        }
-        
-        return Topic.query(on: req).filter(\.name == convertedName).first().flatMap({ (topic) in
-            guard let topic = topic else {
-                throw Abort(.badRequest, reason: "主题不存在", identifier: nil)
-            }
-            
-            return try topic.subcribers.query(on: req).all()
-        })
-    }
-    
-    
-    //Post
     func createTopic(request: Request) throws -> Future<Topic> {
         return try request.content.decode(Topic.self).flatMap({ (newTopic) in
             return Topic.query(on: request).filter(\.name == newTopic.name).first().flatMap({ (existingTopic) in
                 guard existingTopic == nil else {
-                    throw Abort(.badRequest, reason: "主题已存在，不能重复创建", identifier: nil)
+                    throw Abort(.forbidden, reason: "主题已存在，不能重复创建", identifier: nil)
                 }
                 
                 return newTopic.save(on: request).flatMap({ (topic) in
@@ -69,7 +27,7 @@ struct TopicController {
                             return pivot.save(on: request).transform(to: topic)
                         }
                         else {
-                            throw Abort(.badRequest, reason: "不能重复订阅", identifier: nil)
+                            throw Abort(.forbidden, reason: "不能重复订阅", identifier: nil)
                         }
                     })
                 })
@@ -81,7 +39,7 @@ struct TopicController {
         return try request.content.decode(Topic.self).flatMap({ (newTopic) in
             return Topic.query(on: request).filter(\.name == newTopic.name).first().flatMap({ (existingTopic) in
                 guard existingTopic == nil else {
-                    throw Abort(.badRequest, reason: "主题已存在，不能重复创建", identifier: nil)
+                    throw Abort(.forbidden, reason: "主题已存在，不能重复创建", identifier: nil)
                 }
                 
                 return newTopic.save(on: request)

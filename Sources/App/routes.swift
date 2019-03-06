@@ -57,7 +57,8 @@ public func routes(_ router: Router) throws {
     crtTopicsRouter.post("unsubscribe",Int.parameter,Int.parameter, use: tpCtrller.unsubscribeTopic) //用户id，主题id
     crtTopicsRouter.post("subscribe",Int.parameter,Int.parameter, use: tpCtrller.subscribeTopic) //用户id，主题id
     crtTopicsRouter.post("block",Int.parameter,Int.parameter, use: tpCtrller.blockTopic) //用户id，主题id
-    
+
+    crtTopicsRouter.get("topicviaid",Int.parameter,use: tpCtrller.getTopicViaID)
     crtTopicsRouter.get("creator", String.parameter, use: tpCtrller.getTopicCreator)
     crtTopicsRouter.get("subscribers",String.parameter, use: tpCtrller.getTopicSubscriber)
     crtTopicsRouter.get("createdtopics",Int.parameter, use: tpCtrller.getCreatedTopics) //用户id

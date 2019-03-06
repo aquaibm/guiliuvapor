@@ -35,7 +35,7 @@ extension TopicController {
                 return pivot.save(on: req).transform(to: .ok)
             }
             else {
-                throw Abort(.badRequest, reason: "不能重复订阅", identifier: nil)
+                throw Abort(.forbidden, reason: "不能重复订阅", identifier: nil)
             }
         })
     }

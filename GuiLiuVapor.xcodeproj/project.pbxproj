@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		63130A5B222FC7020029EF6A /* TopicController+Relations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63130A5A222FC7020029EF6A /* TopicController+Relations.swift */; };
+		63130A5D222FC8140029EF6A /* TopicController+QueryViaID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63130A5C222FC8140029EF6A /* TopicController+QueryViaID.swift */; };
 		OBJ_1048 /* ReplyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ReplyController.swift */; };
 		OBJ_1049 /* TopicController+FavoriteTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* TopicController+FavoriteTopic.swift */; };
 		OBJ_1050 /* TopicController+PublicTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* TopicController+PublicTopic.swift */; };
@@ -5774,6 +5776,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63130A5A222FC7020029EF6A /* TopicController+Relations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopicController+Relations.swift"; sourceTree = "<group>"; };
+		63130A5C222FC8140029EF6A /* TopicController+QueryViaID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopicController+QueryViaID.swift"; sourceTree = "<group>"; };
 		633C75F5221C1210007C6368 /* Dockerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dockerfile; sourceTree = "<group>"; };
 		633C75F6221C1224007C6368 /* docker-compose.yaml */ = {isa = PBXFileReference; lastKnownFileType = text; path = "docker-compose.yaml"; sourceTree = "<group>"; };
 		"Auth::Authentication::Product" /* Authentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Authentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -7655,15 +7659,17 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_12 /* ReplyController.swift */,
-				OBJ_13 /* TopicController+FavoriteTopic.swift */,
-				OBJ_14 /* TopicController+PublicTopic.swift */,
-				OBJ_15 /* TopicController+TopicItemMenu.swift */,
 				OBJ_16 /* TopicController.swift */,
+				63130A5C222FC8140029EF6A /* TopicController+QueryViaID.swift */,
+				63130A5A222FC7020029EF6A /* TopicController+Relations.swift */,
+				OBJ_14 /* TopicController+PublicTopic.swift */,
+				OBJ_13 /* TopicController+FavoriteTopic.swift */,
+				OBJ_15 /* TopicController+TopicItemMenu.swift */,
+				OBJ_21 /* UserController.swift */,
 				OBJ_17 /* UserController+BlockedHosts.swift */,
 				OBJ_18 /* UserController+BlockedLinks.swift */,
 				OBJ_19 /* UserController+BlockedTopics.swift */,
 				OBJ_20 /* UserController+BlockedUsers.swift */,
-				OBJ_21 /* UserController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -12076,6 +12082,7 @@
 				OBJ_1056 /* UserController+BlockedUsers.swift in Sources */,
 				OBJ_1057 /* UserController.swift in Sources */,
 				OBJ_1058 /* BlockedHost.swift in Sources */,
+				63130A5B222FC7020029EF6A /* TopicController+Relations.swift in Sources */,
 				OBJ_1059 /* BlockedLink.swift in Sources */,
 				OBJ_1060 /* BlockedTopic.swift in Sources */,
 				OBJ_1061 /* BlockedUser.swift in Sources */,
@@ -12092,6 +12099,7 @@
 				OBJ_1072 /* User.swift in Sources */,
 				OBJ_1073 /* UserReplyPivot.swift in Sources */,
 				OBJ_1074 /* UserTopicPivot.swift in Sources */,
+				63130A5D222FC8140029EF6A /* TopicController+QueryViaID.swift in Sources */,
 				OBJ_1075 /* Blocks.swift in Sources */,
 				OBJ_1076 /* ReplyPins.swift in Sources */,
 				OBJ_1077 /* UserPinReplyPair.swift in Sources */,

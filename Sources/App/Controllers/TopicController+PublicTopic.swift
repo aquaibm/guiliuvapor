@@ -71,7 +71,7 @@ extension TopicController {
         })
     }
 
-    func getOtherTopics(req: Request) throws -> Future<[Topic]> {
+    func getOtherTopics(req: Request) throws -> Future<[Int]> {
         let userID = try req.parameters.next(Int.self)
         let batch = try req.parameters.next(Int.self) // 0,1,2,3,...
         //找到对应用户
@@ -83,7 +83,7 @@ extension TopicController {
             let a = try userT.subscribedTopics.query(on: req).all()
             let b = try userT.blockedTopics.query(on: req).all()
             let c = GlobalBlockedTopic.query(on: req).all()
-            return flatMap(to: [Topic].self, a, b, c, { subscrTopics, bTopics, gbTopics in
+            return flatMap(to: [Int].self, a, b, c, { subscrTopics, bTopics, gbTopics in
                 let subscrIDs = subscrTopics.compactMap { $0.id }
                 let bIDs = bTopics.compactMap { $0.blockedTopicID }
                 let gbTopicIDs = gbTopics.compactMap { $0.blockedTopicID }
@@ -91,12 +91,14 @@ extension TopicController {
                 //进行过滤并返回结果
                 let start = 0 + 50*batch
                 let end = 50 + 50*batch
-                return Topic.query(on: req).filter(\Topic.id !~ gbTopicIDs).filter(\Topic.id !~ subscrIDs).filter(\Topic.id !~ bIDs).sort(\Topic.createdAt, .descending).range(start..<end).all()
+                return Topic.query(on: req).filter(\Topic.id !~ gbTopicIDs).filter(\Topic.id !~ subscrIDs).filter(\Topic.id !~ bIDs).sort(\Topic.createdAt, .descending).range(start..<end).all().map({ tps in
+                    return tps.compactMap{ $0.id }
+                })
             })
         })
     }
 
-    func getOtherTopicsWithKey(req: Request) throws -> Future<[Topic]> {
+    func getOtherTopicsWithKey(req: Request) throws -> Future<[Int]> {
         let userID = try req.parameters.next(Int.self)
         let batch = try req.parameters.next(Int.self) // 0,1,2,3,...
         let key = try req.parameters.next(String.self).removingPercentEncoding
@@ -109,7 +111,7 @@ extension TopicController {
             let a = try userT.subscribedTopics.query(on: req).all()
             let b = try userT.blockedTopics.query(on: req).all()
             let c = GlobalBlockedTopic.query(on: req).all()
-            return flatMap(to: [Topic].self, a, b, c, { subscrTopics, bTopics, gbTopics in
+            return flatMap(to: [Int].self, a, b, c, { subscrTopics, bTopics, gbTopics in
                 let subscrIDs = subscrTopics.compactMap { $0.id }
                 let bIDs = bTopics.compactMap { $0.blockedTopicID }
                 let gbTopicIDs = gbTopics.compactMap { $0.blockedTopicID }
@@ -120,10 +122,14 @@ extension TopicController {
                 if let tKey = key, tKey.isEmpty == false {
                     return Topic.query(on: req).group(.or){
                         $0.filter(\Topic.name ~~ tKey).filter(\Topic.description ~~ tKey)
-                        }.filter(\Topic.id !~ gbTopicIDs).filter(\Topic.id !~ subscrIDs).filter(\Topic.id !~ bIDs).sort(\Topic.createdAt, .descending).range(start..<end).all()
+                        }.filter(\Topic.id !~ gbTopicIDs).filter(\Topic.id !~ subscrIDs).filter(\Topic.id !~ bIDs).sort(\Topic.createdAt, .descending).range(start..<end).all().map({ tps in
+                            return tps.compactMap{ $0.id }
+                        })
                 }
                 else {
-                    return Topic.query(on: req).filter(\Topic.id !~ gbTopicIDs).filter(\Topic.id !~ subscrIDs).filter(\Topic.id !~ bIDs).sort(\Topic.createdAt, .descending).range(start..<end).all()
+                    return Topic.query(on: req).filter(\Topic.id !~ gbTopicIDs).filter(\Topic.id !~ subscrIDs).filter(\Topic.id !~ bIDs).sort(\Topic.createdAt, .descending).range(start..<end).all().map({ tps in
+                        return tps.compactMap{ $0.id }
+                    })
                 }
             })
         })
