@@ -74,4 +74,17 @@ extension TopicController {
         })
     }
 
+    func deleteTopic(req: Request) throws -> Future<HTTPResponseStatus> {
+        //要在客户端先匹配创建者和删除者是否是同一个人
+        let tpid = try req.parameters.next(Int.self)
+
+        return Topic.find(tpid, on: req).flatMap({ topic in
+            guard let topicT = topic else {
+                throw Abort(.badRequest, reason: "找不到对应的主题", identifier: nil)
+            }
+
+            return topicT.delete(on: req).transform(to: .ok)
+        })
+    }
+
 }

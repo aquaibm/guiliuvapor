@@ -52,6 +52,7 @@ public func routes(_ router: Router) throws {
     let crtTopicsRouter = basicAuthRouter.grouped("api","topics")
     
     crtTopicsRouter.post("create", use: tpCtrller.createTopic)
+    crtTopicsRouter.post("delete",Int.parameter, use: tpCtrller.deleteTopic) //主题id
     crtTopicsRouter.post("update", use: tpCtrller.updateTopic)
     crtTopicsRouter.post("createpure", use: tpCtrller.createTopicPure)
     crtTopicsRouter.post("unsubscribe",Int.parameter,Int.parameter, use: tpCtrller.unsubscribeTopic) //用户id，主题id
